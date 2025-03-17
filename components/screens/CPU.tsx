@@ -210,7 +210,7 @@ export const CPU = () => {
             <TouchableOpacity 
               key={cpu._id} 
               className={`mb-3 p-4 rounded-2xl ${isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'}`}
-              onPress={() => setSelectedCpu(cpu)}
+              onPress={() => setSelectedCpu(cpu)}  // 移除日志输出
             >
               <View className="flex-row justify-between items-start mb-2">
                 <Text className={`text-lg font-medium ${isDarkMode ? 'text-white' : 'text-black'}`}>
@@ -383,6 +383,7 @@ export const CPU = () => {
         <CPUDetail 
           cpu={selectedCpu} 
           onClose={() => setSelectedCpu(null)} 
+          visible={!!selectedCpu}  // 添加 visible 属性
         />
       )}
     </View>

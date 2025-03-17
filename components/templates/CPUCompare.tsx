@@ -147,11 +147,25 @@ export const CPUCompare = ({ cpuData }: CPUCompareProps) => {
               {/* 跑分选项卡 */}
               <View className="relative mb-8">
                 <View className={`flex-row ${isDarkMode ? 'bg-[#222222]' : 'bg-gray-100'} rounded-xl p-1`}>
+                  <Animated.View
+                    className={`absolute ${isDarkMode ? 'bg-[#2F2F2F]' : 'bg-white'} rounded-lg`}
+                    style={{
+                      width: '33%',
+                      top: 4,
+                      bottom: 4,
+                      transform: [{
+                        translateX: slideAnimation.interpolate({
+                          inputRange: [0, 1, 2],
+                          outputRange: [4, 108, 212],
+                        }),
+                      }],
+                    }}
+                  />
                   {benchmarks.map((benchmark, index) => (
                     <TouchableOpacity
                       key={benchmark.id}
                       onPress={() => handleTabPress(index)}
-                      className="flex-1 py-3 z-10"
+                      className="flex-1 py-3"
                     >
                       <Text className={`text-center ${
                         activeIndex === index 
@@ -163,17 +177,6 @@ export const CPUCompare = ({ cpuData }: CPUCompareProps) => {
                     </TouchableOpacity>
                   ))}
                 </View>
-                <Animated.View
-                  className={`absolute top-1 bottom-1 ${isDarkMode ? 'bg-[#2F2F2F]' : 'bg-white'} rounded-lg shadow w-[33.33%]`}
-                  style={{
-                    transform: [{
-                      translateX: slideAnimation.interpolate({
-                        inputRange: [0, 1, 2],
-                        outputRange: [4, 4 + (100), 4 + (200)],
-                      }),
-                    }],
-                  }}
-                />
               </View>
 
               {/* 性能数据 */}
