@@ -10,6 +10,7 @@ const categories = [
     id: 1, 
     title: '处理器', 
     subtitle: '最新 CPU 性能排行',
+    count: 423,
     icon: 'hardware-chip-sharp' as const, 
     route: 'CPU' as const 
   },
@@ -17,6 +18,7 @@ const categories = [
     id: 2, 
     title: '显卡', 
     subtitle: '最新 GPU 性能排行',
+    count: 1456,
     icon: 'speedometer-sharp' as const, 
     route: 'GPU' as const 
   },
@@ -27,33 +29,46 @@ export const CategoryGrid = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   
   return (
-    <View className="px-4 pb-4">
-      <Text className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
-        硬件排行
-      </Text>
-      <View className="flex-row flex-wrap justify-between">
-        {categories.map((category) => (
-          <Pressable 
-            key={category.id} 
-            className={`mb-4 p-4 rounded-2xl ${
-              isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
-            }`}
-            style={{ width: '48%' }}
-            onPress={() => category.route && navigation.navigate(category.route)}
-          >
-            <View className={`h-12 w-12 items-center justify-center rounded-xl mb-3 ${
-              isDarkMode ? 'bg-[#333]' : 'bg-gray-50'
-            }`}>
-              <Ionicons name={category.icon} size={24} color="#FFE600" />
-            </View>
-            <Text className={`text-base font-bold mb-1 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
-              {category.title}
-            </Text>
-            <Text className={`text-xs ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-              {category.subtitle}
-            </Text>
-          </Pressable>
-        ))}
+    <View className={`mx-4 mt-0 mb-6 ${isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'} rounded-3xl overflow-hidden`}>
+      <View className="p-5 border-b border-[#FBBF24]/10">
+        <View className="flex-row items-center">
+          <View className="w-1 h-5 bg-[#FBBF24] rounded-full mr-3" />
+          <Text className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            硬件数据
+          </Text>
+        </View>
+      </View>
+
+      <View className="p-4">
+        <View className="flex-row flex-wrap justify-between">
+          {categories.map((category) => (
+            <Pressable 
+              key={category.id} 
+              className={`mb-4 p-4 rounded-2xl border-2 border-[#FBBF24]/20 ${
+                isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
+              }`}
+              style={{ width: '48%' }}
+              onPress={() => category.route && navigation.navigate(category.route)}
+            >
+              <View className={`h-12 w-12 items-center justify-center rounded-xl mb-3 bg-[#FBBF24]/10`}>
+                <Ionicons 
+                  name={category.icon} 
+                  size={24} 
+                  color="#FBBF24" 
+                />
+              </View>
+              <Text className={`text-[#FBBF24] text-base font-bold mb-1`}>
+                {category.title}
+              </Text>
+              <Text className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-xs mb-2`}>
+                {category.subtitle}
+              </Text>
+              <Text className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-[10px]`}>
+                共收录 <Text className={`text-[#FBBF24]`}>{category.count}</Text> 款
+              </Text>
+            </Pressable>
+          ))}
+        </View>
       </View>
     </View>
   );

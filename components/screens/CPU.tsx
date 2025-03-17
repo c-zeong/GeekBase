@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as FileSystem from 'expo-file-system';
 import Papa from 'papaparse';
 import { Asset } from 'expo-asset';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { CPUDetail } from '../features/cpu/CPUDetail';
@@ -19,6 +19,20 @@ export const CPU = () => {
   const [selectedTdp, setSelectedTdp] = useState('all');
   const [showFilterModal, setShowFilterModal] = useState<string | null>(null);
   const [selectedCpu, setSelectedCpu] = useState<CPUType | null>(null);
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  // 添加动画效果控制
+  useEffect(() => {
+    if (showFilterModal) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      fadeAnim.setValue(0);
+    }
+  }, [showFilterModal]);
   const [cpuData, setCpuData] = useState<CPUType[]>([]);
   const [filteredData, setFilteredData] = useState<CPUType[]>([]);
   const [page, setPage] = useState(1);
@@ -123,88 +137,90 @@ export const CPU = () => {
 
   return (
     <View className="flex-1">
-      <SafeAreaView className={isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white'}>
+      <SafeAreaView className="bg-gray-100">
         {/* 顶部搜索栏 */}
-        <View className="px-4 py-2 flex-row items-center space-x-3">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back" size={24} color={isDarkMode ? '#fff' : '#000'} />
+        <View className="px-4 py-3 flex-row items-center">
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            className="w-14 h-14 items-center justify-center rounded-full bg-gray-200"
+          >
+            <Ionicons name="arrow-back" size={24} color="#333" />
           </TouchableOpacity>
           
-          <View className={`flex-1 flex-row items-center px-3 py-1.5 rounded-full ${isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-100'}`}>
-            <Ionicons name="search-outline" size={18} color={isDarkMode ? '#666' : '#999'} />
+          <View className="flex-1 flex-row items-center h-14 px-4 rounded-full bg-gray-200 ml-4">
+            <Ionicons name="search" size={20} color="#666" />
             <TextInput
-              className={`flex-1 ml-2 text-sm ${isDarkMode ? 'text-white' : 'text-black'}`}
-              placeholder="搜索处理器"
-              placeholderTextColor={isDarkMode ? '#666' : '#999'}
+              className="flex-1 ml-2 text-base text-black"
+              placeholder="搜索CPU型号"
+              placeholderTextColor="#999"
               value={searchText}
               onChangeText={setSearchText}
               returnKeyType="search"
             />
-            {searchText ? (
-              <TouchableOpacity onPress={() => setSearchText('')}>
-                <Ionicons name="close-circle" size={16} color={isDarkMode ? '#666' : '#999'} />
-              </TouchableOpacity>
-            ) : null}
+            <TouchableOpacity 
+              onPress={() => setSearchText('')}
+              className="p-2"
+            >
+              <Ionicons name="close" size={18} color="#666" />
+            </TouchableOpacity>
           </View>
         </View>
 
         {/* 筛选按钮区域 */}
-        <View className="flex-row px-4 py-4 space-x-6">
+        <View className="flex-row px-4 py-4 justify-between">
           <TouchableOpacity 
-            className={`flex-1 py-2.5 px-4 rounded-xl ${
-              isDarkMode 
-                ? selectedType !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
-                : selectedType !== 'all' ? 'bg-[#FFE600]/5' : 'bg-gray-50'
-            }`}
+            activeOpacity={1}
+            className="w-[30%] py-3.5 px-4 rounded-full bg-white shadow-sm"
             onPress={() => setShowFilterModal('type')}
           >
-            <Text className={`text-center ${
-              selectedType !== 'all'
-                ? 'text-[#FFE600] font-medium'
-                : isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
-              分类 {selectedType !== 'all' && '•'}
-            </Text>
+            <View className="flex-row items-center justify-center">
+              <Text className={`text-center mr-1 ${selectedType === 'all' ? 'text-gray-400' : 'text-gray-700'}`}>
+                类型
+              </Text>
+              <Ionicons 
+                name="chevron-down" 
+                size={14} 
+                color={selectedType === 'all' ? '#9CA3AF' : '#374151'} 
+              />
+            </View>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            className={`flex-1 py-2.5 px-4 rounded-xl ${
-              isDarkMode 
-                ? selectedSocket !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
-                : selectedSocket !== 'all' ? 'bg-[#FFE600]/5' : 'bg-gray-50'
-            }`}
+            className="w-[30%] py-3.5 px-4 rounded-full bg-white shadow-sm"
             onPress={() => setShowFilterModal('socket')}
           >
-            <Text className={`text-center ${
-              selectedSocket !== 'all'
-                ? 'text-[#FFE600] font-medium'
-                : isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
-              插槽 {selectedSocket !== 'all' && '•'}
-            </Text>
+            <View className="flex-row items-center justify-center">
+              <Text className={`text-center mr-1 ${selectedSocket === 'all' ? 'text-gray-400' : 'text-gray-700'}`}>
+                插槽
+              </Text>
+              <Ionicons 
+                name="chevron-down" 
+                size={14} 
+                color={selectedSocket === 'all' ? '#9CA3AF' : '#374151'} 
+              />
+            </View>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            className={`flex-1 py-2.5 px-4 rounded-xl ${
-              isDarkMode 
-                ? selectedTdp !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
-                : selectedTdp !== 'all' ? 'bg-[#FFE600]/5' : 'bg-gray-50'
-            }`}
+            className="w-[30%] py-3.5 px-4 rounded-full bg-white shadow-sm"
             onPress={() => setShowFilterModal('tdp')}
           >
-            <Text className={`text-center ${
-              selectedTdp !== 'all'
-                ? 'text-[#FFE600] font-medium'
-                : isDarkMode ? 'text-gray-400' : 'text-gray-500'
-            }`}>
-              功耗 {selectedTdp !== 'all' && '•'}
-            </Text>
+            <View className="flex-row items-center justify-center">
+              <Text className={`text-center mr-1 ${selectedTdp === 'all' ? 'text-gray-400' : 'text-gray-700'}`}>
+                功耗
+              </Text>
+              <Ionicons 
+                name="chevron-down" 
+                size={14} 
+                color={selectedTdp === 'all' ? '#9CA3AF' : '#374151'} 
+              />
+            </View>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
 
       {/* CPU列表 */}
-      <ScrollView className={`flex-1 ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-gray-50'}`}>
+      <ScrollView className="flex-1 bg-gray-100">
         <View className="p-4">
           {paginatedData.map((cpu: CPUType) => (
             <TouchableOpacity 
@@ -260,23 +276,35 @@ export const CPU = () => {
       <Modal
         visible={!!showFilterModal}
         transparent={true}
-        animationType="slide"
+        animationType="none"
         onRequestClose={() => setShowFilterModal(null)}
       >
         <View className="flex-1 justify-end">
-          <TouchableOpacity 
-            className="flex-1 bg-black/50"
-            onPress={() => setShowFilterModal(null)}
-          />
-          <View className={`p-4 rounded-t-3xl ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white'}`}>
-            <View className="flex-row justify-between items-center mb-6">
-              <Text className={`text-lg font-medium ${isDarkMode ? 'text-white' : 'text-black'}`}>
+          <Animated.View 
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'black',
+              opacity: fadeAnim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 0.5]
+              })
+            }}
+          >
+            <TouchableOpacity 
+              className="flex-1"
+              onPress={() => setShowFilterModal(null)}
+            />
+          </Animated.View>
+          <View className={`rounded-t-[30px] ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white'}`}>
+            <View className="items-center my-8">
+              <Text className={`text-xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-600'}`}>
                 {showFilterModal === 'type' ? '处理器类型' : 
                  showFilterModal === 'socket' ? '处理器插槽' : '功耗范围'}
               </Text>
-              <TouchableOpacity onPress={() => setShowFilterModal(null)}>
-                <Ionicons name="close" size={24} color={isDarkMode ? '#fff' : '#000'} />
-              </TouchableOpacity>
             </View>
 
             <View className="space-y-4">
@@ -290,17 +318,17 @@ export const CPU = () => {
                   <TouchableOpacity
                     key={item.value}
                     className={`flex-row items-center justify-between p-4 rounded-xl ${
-                      isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
+                      isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-50'
                     } ${selectedType === item.value && 'bg-[#FFE600]/10'}`}
                     onPress={() => {
                       setSelectedType(item.value);
                       setShowFilterModal(null);
                     }}
                   >
-                    <Text className={`text-base ${
+                    <Text className={`text-base font-medium ${
                       selectedType === item.value
                         ? 'text-[#FFE600]'
-                        : isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                        : isDarkMode ? 'text-gray-300' : 'text-gray-500'
                     }`}>
                       {item.label}
                     </Text>
@@ -310,35 +338,39 @@ export const CPU = () => {
                   </TouchableOpacity>
                 ))
               ) : showFilterModal === 'socket' ? (
-                [
-                  { label: '全部', value: 'all' },
-                  ...availableSockets.map(socket => ({
-                    label: socket.toUpperCase(),
-                    value: socket
-                  }))
-                ].map((item) => (
-                  <TouchableOpacity
-                    key={item.value}
-                    className={`flex-row items-center justify-between p-4 rounded-xl ${
-                      isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
-                    } ${selectedSocket === item.value && 'bg-[#FFE600]/10'}`}
-                    onPress={() => {
-                      setSelectedSocket(item.value);
-                      setShowFilterModal(null);
-                    }}
-                  >
-                    <Text className={`text-base ${
-                      selectedSocket === item.value
-                        ? 'text-[#FFE600]'
-                        : isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      {item.label}
-                    </Text>
-                    {selectedSocket === item.value && (
-                      <View className="h-2 w-2 rounded-full bg-[#FFE600]" />
-                    )}
-                  </TouchableOpacity>
-                ))
+                <View className="flex-row flex-wrap justify-between">
+                  {[
+                    { label: '全部', value: 'all' },
+                    ...availableSockets.map(socket => ({
+                      label: socket.toUpperCase(),
+                      value: socket
+                    }))
+                  ].map((item) => (
+                    <TouchableOpacity
+                      key={item.value}
+                      className={`w-[48%] mb-4 p-4 rounded-xl ${
+                        isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-50'
+                      } ${selectedSocket === item.value && 'bg-[#FFE600]/10'}`}
+                      onPress={() => {
+                        setSelectedSocket(item.value);
+                        setShowFilterModal(null);
+                      }}
+                    >
+                      <View className="flex-row items-center justify-between">
+                        <Text className={`text-base font-medium ${
+                          selectedSocket === item.value
+                            ? 'text-[#FFE600]'
+                            : isDarkMode ? 'text-gray-300' : 'text-gray-500'
+                        }`}>
+                          {item.label}
+                        </Text>
+                        {selectedSocket === item.value && (
+                          <View className="h-2 w-2 rounded-full bg-[#FFE600]" />
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               ) : (
                 [
                   { label: '全部', value: 'all' },

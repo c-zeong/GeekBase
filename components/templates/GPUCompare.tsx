@@ -135,15 +135,30 @@ export const GPUCompare = ({ gpuData }: GPUCompareProps) => {
               {/* 跑分选项卡 */}
               <View className="relative mb-8">
                 <View className={`flex-row ${isDarkMode ? 'bg-[#222222]' : 'bg-gray-100'} rounded-xl p-1`}>
+                  {/* 移动滑块到最底层 */}
+                  <Animated.View
+                    className={`absolute top-1 bottom-1 ${isDarkMode ? 'bg-[#2F2F2F]' : 'bg-white'} rounded-lg shadow w-[33.33%]`}
+                    style={{
+                      transform: [{
+                        translateX: slideAnimation.interpolate({
+                          inputRange: [0, 1, 2],
+                          outputRange: [4, 4 + (100), 4 + (200)],
+                        }),
+                      }],
+                      zIndex: 1  // 确保滑块在底层
+                    }}
+                  />
+                  {/* 选项卡按钮放在上层 */}
                   {benchmarks.map((benchmark, index) => (
                     <TouchableOpacity
                       key={benchmark.id}
                       onPress={() => handleTabPress(index)}
-                      className="flex-1 py-3 z-10"
+                      className="flex-1 py-3"
+                      style={{ zIndex: 2 }}  // 确保按钮在上层
                     >
                       <Text className={`text-center ${
                         activeIndex === index 
-                          ? 'text-[#FFE600] font-bold' 
+                          ? 'text-[#FBBF24] font-bold' 
                           : isDarkMode ? 'text-gray-400' : 'text-gray-500'
                       }`}>
                         {benchmark.name}
@@ -151,17 +166,6 @@ export const GPUCompare = ({ gpuData }: GPUCompareProps) => {
                     </TouchableOpacity>
                   ))}
                 </View>
-                <Animated.View
-                  className={`absolute top-1 bottom-1 ${isDarkMode ? 'bg-[#2F2F2F]' : 'bg-white'} rounded-lg shadow w-[33.33%]`}
-                  style={{
-                    transform: [{
-                      translateX: slideAnimation.interpolate({
-                        inputRange: [0, 1, 2],
-                        outputRange: [4, 4 + (100), 4 + (200)],
-                      }),
-                    }],
-                  }}
-                />
               </View>
 
               {/* 性能数据 */}
