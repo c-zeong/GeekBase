@@ -64,7 +64,7 @@ export const CategoryGrid = () => {
                 {category.subtitle}
               </Text>
               <Text className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-[10px]`}>
-                共收录 <Text className={`text-[#FBBF24]`}>{category.count}</Text> 款
+                共收录 <Text className="text-[#FBBF24] font-bold text-xs">{category.count}</Text> 款
               </Text>
             </Pressable>
           ))}

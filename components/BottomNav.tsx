@@ -35,7 +35,7 @@ export const BottomNav = ({ state, navigation }: BottomTabBarProps) => {
   
   return (
     <View className={`flex-row rounded-t-3xl  ${
-      isDarkMode ? 'bg-[#1A1A1A] border-[#333333]' : 'bg-white border-gray-200'
+      isDarkMode ? 'bg-[#2A2A2A] border-[#333333]' : 'bg-white border-gray-200'
     }`}>
       {tabs.map((tab, index) => (
         <Pressable

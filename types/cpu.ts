@@ -34,4 +34,5 @@ export interface CPU {
   max_mem_size: number;
   mem_eec: boolean;
   directx_version: string;
+  cpu_cores?: string; 
 }

@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as FileSystem from 'expo-file-system';
 import Papa from 'papaparse';
 import { Asset } from 'expo-asset';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal, Animated } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Modal, Animated, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { CPUDetail } from '../features/cpu/CPUDetail';
@@ -137,22 +137,34 @@ export const CPU = () => {
 
   return (
     <View className="flex-1">
-      <SafeAreaView className="bg-gray-100">
+      <SafeAreaView className={`${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-gray-100'}`}>
         {/* 顶部搜索栏 */}
         <View className="px-4 py-3 flex-row items-center">
           <TouchableOpacity 
             onPress={() => navigation.goBack()}
-            className="w-14 h-14 items-center justify-center rounded-full bg-gray-200"
+            className={`w-14 h-14 items-center justify-center rounded-full ${
+              isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-200'
+            }`}
           >
-            <Ionicons name="arrow-back" size={24} color="#333" />
+            <Ionicons 
+              name="arrow-back" 
+              size={24} 
+              color={isDarkMode ? '#fff' : '#333'} 
+            />
           </TouchableOpacity>
           
-          <View className="flex-1 flex-row items-center h-14 px-4 rounded-full bg-gray-200 ml-4">
-            <Ionicons name="search" size={20} color="#666" />
+          <View className={`flex-1 flex-row items-center h-14 px-4 rounded-full ml-4 ${
+            isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-200'
+          }`}>
+            <Ionicons 
+              name="search" 
+              size={20} 
+              color={isDarkMode ? '#666' : '#666'} 
+            />
             <TextInput
-              className="flex-1 ml-2 text-base text-black"
+              className={`flex-1 ml-2 text-base ${isDarkMode ? 'text-white' : 'text-black'}`}
               placeholder="搜索CPU型号"
-              placeholderTextColor="#999"
+              placeholderTextColor={isDarkMode ? '#666' : '#999'}
               value={searchText}
               onChangeText={setSearchText}
               returnKeyType="search"
@@ -161,58 +173,95 @@ export const CPU = () => {
               onPress={() => setSearchText('')}
               className="p-2"
             >
-              <Ionicons name="close" size={18} color="#666" />
+              <Ionicons 
+                name="close" 
+                size={18} 
+                color={isDarkMode ? '#666' : '#666'} 
+              />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* 筛选按钮区域 */}
-        <View className="flex-row px-4 py-4 justify-between">
+        <View className="flex-row px-4 py-2 justify-between">
           <TouchableOpacity 
             activeOpacity={1}
-            className="w-[30%] py-3.5 px-4 rounded-full bg-white shadow-sm"
+            className={`w-[30%] py-3.5 px-4 rounded-full ${
+              isDarkMode 
+                ? selectedType !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
+                : selectedType !== 'all' ? 'bg-[#FFE600]/5' : 'bg-white'
+            } shadow-sm`}
             onPress={() => setShowFilterModal('type')}
           >
             <View className="flex-row items-center justify-center">
-              <Text className={`text-center mr-1 ${selectedType === 'all' ? 'text-gray-400' : 'text-gray-700'}`}>
+              <Text className={`text-center mr-1 ${
+                selectedType !== 'all'
+                  ? 'text-[#FFE600] font-medium'
+                  : isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 类型
               </Text>
               <Ionicons 
                 name="chevron-down" 
                 size={14} 
-                color={selectedType === 'all' ? '#9CA3AF' : '#374151'} 
+                color={selectedType === 'all' 
+                  ? isDarkMode ? '#9CA3AF' : '#9CA3AF'
+                  : '#FFE600'
+                } 
               />
             </View>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            className="w-[30%] py-3.5 px-4 rounded-full bg-white shadow-sm"
+            className={`w-[30%] py-3.5 px-4 rounded-full ${
+              isDarkMode 
+                ? selectedSocket !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
+                : selectedSocket !== 'all' ? 'bg-[#FFE600]/5' : 'bg-white'
+            } shadow-sm`}
             onPress={() => setShowFilterModal('socket')}
           >
             <View className="flex-row items-center justify-center">
-              <Text className={`text-center mr-1 ${selectedSocket === 'all' ? 'text-gray-400' : 'text-gray-700'}`}>
+              <Text className={`text-center mr-1 ${
+                selectedSocket !== 'all'
+                  ? 'text-[#FFE600] font-medium'
+                  : isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 插槽
               </Text>
               <Ionicons 
                 name="chevron-down" 
                 size={14} 
-                color={selectedSocket === 'all' ? '#9CA3AF' : '#374151'} 
+                color={selectedSocket === 'all' 
+                  ? isDarkMode ? '#9CA3AF' : '#9CA3AF'
+                  : '#FFE600'
+                } 
               />
             </View>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            className="w-[30%] py-3.5 px-4 rounded-full bg-white shadow-sm"
+            className={`w-[30%] py-3.5 px-4 rounded-full ${
+              isDarkMode 
+                ? selectedTdp !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
+                : selectedTdp !== 'all' ? 'bg-[#FFE600]/5' : 'bg-white'
+            } shadow-sm`}
             onPress={() => setShowFilterModal('tdp')}
           >
             <View className="flex-row items-center justify-center">
-              <Text className={`text-center mr-1 ${selectedTdp === 'all' ? 'text-gray-400' : 'text-gray-700'}`}>
+              <Text className={`text-center mr-1 ${
+                selectedTdp !== 'all'
+                  ? 'text-[#FFE600] font-medium'
+                  : isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>
                 功耗
               </Text>
               <Ionicons 
                 name="chevron-down" 
                 size={14} 
-                color={selectedTdp === 'all' ? '#9CA3AF' : '#374151'} 
+                color={selectedTdp === 'all' 
+                  ? isDarkMode ? '#9CA3AF' : '#9CA3AF'
+                  : '#FFE600'
+                } 
               />
             </View>
           </TouchableOpacity>
@@ -220,41 +269,119 @@ export const CPU = () => {
       </SafeAreaView>
 
       {/* CPU列表 */}
-      <ScrollView className="flex-1 bg-gray-100">
+      <ScrollView 
+        className={`flex-1 ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-gray-100'}`}
+        keyboardShouldPersistTaps="handled"
+      >
         <View className="p-4">
           {paginatedData.map((cpu: CPUType) => (
             <TouchableOpacity 
               key={cpu._id} 
-              className={`mb-3 p-4 rounded-2xl ${isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'}`}
-              onPress={() => setSelectedCpu(cpu)}  // 移除日志输出
+              className={`mb-4 p-4 ${isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'} rounded-2xl shadow-sm`}
+              onPress={() => setSelectedCpu(cpu)}
             >
-              <View className="flex-row justify-between items-start mb-2">
-                <Text className={`text-lg font-medium ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              {/* CPU 名称和性能分数 */}
+              <View className="flex-row items-start justify-between mb-4">
+                <Text className={`text-lg font-semibold flex-1 mr-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   {cpu.cpu_name}
                 </Text>
                 {cpu.passmark && (
-                  <View className={`px-3 py-1 rounded-full ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-gray-100'}`}>
-                    <Text className="text-[#FFE600] font-medium">{cpu.passmark}</Text>
+                  <View className="shrink-0 px-3 py-1.5 bg-[#FBBF24]/10 rounded-lg">
+                    <Text className="text-[#FBBF24] font-bold text-sm">
+                      {cpu.passmark}
+                    </Text>
                   </View>
                 )}
               </View>
-              
-              <View className="flex-row items-center mb-1">
-                <Text className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {cpu.cpu_threads} 线程
-                </Text>
-                <View className="h-1 w-1 rounded-full bg-gray-400 mx-2" />
-                <Text className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {cpu.cpu_tdp}W
-                </Text>
-                {cpu.cpu_socket && (
-                  <>
-                    <View className="h-1 w-1 rounded-full bg-gray-400 mx-2" />
-                    <Text className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      {cpu.cpu_socket}
-                    </Text>
-                  </>
-                )}
+
+              {/* CPU 规格信息 */}
+              <View>
+                {/* 参数卡片 */}
+                <View className="flex-row justify-between">
+                  {/* 大核 */}
+                  {cpu.total_clock_speed?.includes('&') ? (
+                    cpu.total_clock_speed.split('&').map((part, index) => {
+                      if (index === 0) {
+                        const [count, speed] = part.trim().split('x').map(s => s.trim());
+                        return (
+                          <View key={index} className={`w-[23%] p-3 rounded-xl ${isDarkMode ? 'bg-[#333333]' : 'bg-gray-50'}`}>
+                            <Text className={`text-sm mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                              大核
+                            </Text>
+                            <Text className={`text-base font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                              {`${count}×${speed}`}
+                            </Text>
+                          </View>
+                        );
+                      }
+                      return null;
+                    })
+                  ) : (
+                    <View className={`w-[23%] p-3 rounded-xl ${isDarkMode ? 'bg-[#333333]' : 'bg-gray-50'}`}>
+                      <Text className={`text-sm mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        纯大核
+                      </Text>
+                      <Text className={`text-base font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                        {cpu.total_clock_speed?.includes('x') ? (
+                          (() => {
+                            const [count, speed] = cpu.total_clock_speed.split('x').map(s => s.trim());
+                            return `${count}×${speed}`;
+                          })()
+                        ) : (
+                          `${cpu.cpu_cores}×${cpu.total_clock_speed}`
+                        )}
+                      </Text>
+                    </View>
+                  )}
+
+                  {/* 小核 */}
+                  {cpu.total_clock_speed?.includes('&') ? (
+                    cpu.total_clock_speed.split('&').map((part, index) => {
+                      if (index === 1) {
+                        const [count, speed] = part.trim().split('x').map(s => s.trim());
+                        return (
+                          <View key={index} className={`w-[23%] p-3 rounded-xl ${isDarkMode ? 'bg-[#333333]' : 'bg-gray-50'}`}>
+                            <Text className={`text-sm mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                              小核
+                            </Text>
+                            <Text className={`text-base font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                              {`${count}×${speed}`}
+                            </Text>
+                          </View>
+                        );
+                      }
+                      return null;
+                    })
+                  ) : null}
+
+                  {/* 其他参数卡片 */}
+                  {[
+                    {
+                      title: '线程数',
+                      value: cpu.cpu_threads,
+                      unit: ''
+                    },
+                    {
+                      title: '制程',
+                      value: cpu.semiconductor_size,
+                      unit: 'nm'
+                    },
+                    {
+                      title: '功耗',
+                      value: cpu.cpu_tdp,
+                      unit: 'W'
+                    }
+                  ].slice(0, cpu.total_clock_speed?.includes('&') ? 2 : 3).map((item, index) => (
+                    <View key={index} className={`w-[23%] p-3 rounded-xl ${isDarkMode ? 'bg-[#333333]' : 'bg-gray-50'}`}>
+                      <Text className={`text-sm mb-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {item.title}
+                      </Text>
+                      <Text className={`text-base font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
+                        {`${item.value}${item.unit}`}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
               </View>
             </TouchableOpacity>
           ))}
@@ -299,7 +426,7 @@ export const CPU = () => {
               onPress={() => setShowFilterModal(null)}
             />
           </Animated.View>
-          <View className={`rounded-t-[30px] ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white'}`}>
+          <View className={`rounded-t-3xl ${isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white'}`}>
             <View className="items-center my-8">
               <Text className={`text-xl font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-600'}`}>
                 {showFilterModal === 'type' ? '处理器类型' : 
@@ -307,19 +434,22 @@ export const CPU = () => {
               </Text>
             </View>
 
-            <View className="space-y-4">
+            {/* 增加左右内边距 */}
+            <View className="space-y-4 px-6 pb-8">
               {showFilterModal === 'type' ? (
                 [
                   { label: '全部', value: 'all' },
                   { label: '桌面端', value: 'desktop' },
                   { label: '移动端', value: 'laptop' },
-                  { label: '其他', value: 'other' }
+                  { label: '掌机', value: 'other' }
                 ].map((item) => (
                   <TouchableOpacity
                     key={item.value}
                     className={`flex-row items-center justify-between p-4 rounded-xl ${
-                      isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-50'
-                    } ${selectedType === item.value && 'bg-[#FFE600]/10'}`}
+                      selectedType === item.value ? (
+                        isDarkMode ? 'bg-[#FFE600]/10' : 'bg-[#FFE600]/5'
+                      ) : ''
+                    }`}
                     onPress={() => {
                       setSelectedType(item.value);
                       setShowFilterModal(null);
@@ -349,8 +479,14 @@ export const CPU = () => {
                     <TouchableOpacity
                       key={item.value}
                       className={`w-[48%] mb-4 p-4 rounded-xl ${
-                        isDarkMode ? 'bg-[#2A2A2A]' : 'bg-gray-50'
-                      } ${selectedSocket === item.value && 'bg-[#FFE600]/10'}`}
+                        isDarkMode 
+                          ? selectedSocket === item.value 
+                            ? 'bg-[#FFE600]/10' 
+                            : 'bg-[#2A2A2A]'
+                          : selectedSocket === item.value
+                            ? 'bg-[#FFE600]/10'
+                            : 'bg-gray-50'
+                      }`}
                       onPress={() => {
                         setSelectedSocket(item.value);
                         setShowFilterModal(null);
@@ -385,8 +521,10 @@ export const CPU = () => {
                   <TouchableOpacity
                     key={item.value}
                     className={`flex-row items-center justify-between p-4 rounded-xl ${
-                      isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
-                    } ${selectedTdp === item.value && 'bg-[#FFE600]/10'}`}
+                      selectedTdp === item.value ? (
+                        isDarkMode ? 'bg-[#FFE600]/10' : 'bg-[#FFE600]/5'
+                      ) : ''
+                    }`}
                     onPress={() => {
                       setSelectedTdp(item.value);
                       setShowFilterModal(null);
