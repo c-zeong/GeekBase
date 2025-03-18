@@ -1,7 +1,7 @@
 <div align="center">
   <img src="images/icon.png" width="128" height="128" alt="GeekBase">
   <h1>极库 - GeekBase</h1>
-  <p>专业的处理器与显卡性能对比工具，提供全面的硬件参数数据库</p>
+  <p>简洁的硬件参数数据库</p>
 </div>
 
 ## 简介
@@ -12,9 +12,8 @@ GeekBase 是一款基于 React Native 开发的跨平台应用，专注于电脑
 
 - 基于 React Native 开发
 - 支持 iOS 和 Android 双平台
-- 原生性能体验
+- 离线应用
 - 支持暗黑模式
-- 流畅的动画效果
 
 ## 截图展示
 
@@ -27,10 +26,4 @@ GeekBase 是一款基于 React Native 开发的跨平台应用，专注于电脑
 
 ## 下载地址
 
-- [下载APK安装包](https://github.com/yourusername/geekbase/releases/latest/download/app-release.apk)
-
-## 联系方式
-
-如有问题或建议，欢迎通过以下方式联系：
-- 邮箱：your.email@example.com
-- 微信：YourWeChatID
+- [下载APK安装包](https://github.com/c-zeong/geekbase/releases/download/1.0.0/geekbase.apk)
