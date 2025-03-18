@@ -19,17 +19,15 @@ GeekBase 是一款基于 React Native 开发的跨平台应用，专注于电脑
 ## 截图展示
 
 <div align="center">
-  <img src="images/01.png" width="200" alt="首页">
-  <img src="images/02.png" width="200" alt="CPU对比">
-  <img src="images/03.png" width="200" alt="GPU对比">
-  <img src="images/04.png" width="200" alt="暗黑模式">
+  <img src="images/01.jpg" width="200" alt="首页">
+  <img src="images/02.jpg" width="200" alt="CPU对比">
+  <img src="images/03.jpg" width="200" alt="GPU对比">
+  <img src="images/04.jpg" width="200" alt="暗黑模式">
 </div>
 
 ## 下载地址
 
 - [下载APK安装包](https://github.com/yourusername/geekbase/releases/latest/download/app-release.apk)
-- [Google Play商店](https://play.google.com/store/apps/details?id=com.geekbase.app)
-- App Store (即将上线)
 
 ## 联系方式
 
