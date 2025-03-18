@@ -189,14 +189,14 @@ export const CPU = () => {
             className={`w-[30%] py-3.5 px-4 rounded-full ${
               isDarkMode 
                 ? selectedType !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
-                : selectedType !== 'all' ? 'bg-[#FFE600]/5' : 'bg-white'
+                : selectedType !== 'all' ? 'bg-white' : 'bg-white'
             } shadow-sm`}
             onPress={() => setShowFilterModal('type')}
           >
             <View className="flex-row items-center justify-center">
               <Text className={`text-center mr-1 ${
                 selectedType !== 'all'
-                  ? 'text-[#FFE600] font-medium'
+                  ? isDarkMode ? 'text-[#FFE600] font-medium' : 'text-gray-900 font-medium'
                   : isDarkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
                 类型
@@ -206,7 +206,7 @@ export const CPU = () => {
                 size={14} 
                 color={selectedType === 'all' 
                   ? isDarkMode ? '#9CA3AF' : '#9CA3AF'
-                  : '#FFE600'
+                  : isDarkMode ? '#FFE600' : '#111827'
                 } 
               />
             </View>
@@ -216,14 +216,14 @@ export const CPU = () => {
             className={`w-[30%] py-3.5 px-4 rounded-full ${
               isDarkMode 
                 ? selectedSocket !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
-                : selectedSocket !== 'all' ? 'bg-[#FFE600]/5' : 'bg-white'
+                : selectedSocket !== 'all' ? 'bg-white' : 'bg-white'
             } shadow-sm`}
             onPress={() => setShowFilterModal('socket')}
           >
             <View className="flex-row items-center justify-center">
               <Text className={`text-center mr-1 ${
                 selectedSocket !== 'all'
-                  ? 'text-[#FFE600] font-medium'
+                  ? isDarkMode ? 'text-[#FFE600] font-medium' : 'text-gray-900 font-medium'
                   : isDarkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
                 插槽
@@ -233,7 +233,7 @@ export const CPU = () => {
                 size={14} 
                 color={selectedSocket === 'all' 
                   ? isDarkMode ? '#9CA3AF' : '#9CA3AF'
-                  : '#FFE600'
+                  : isDarkMode ? '#FFE600' : '#111827'
                 } 
               />
             </View>
@@ -243,14 +243,14 @@ export const CPU = () => {
             className={`w-[30%] py-3.5 px-4 rounded-full ${
               isDarkMode 
                 ? selectedTdp !== 'all' ? 'bg-[#FFE600]/10' : 'bg-[#2A2A2A]'
-                : selectedTdp !== 'all' ? 'bg-[#FFE600]/5' : 'bg-white'
+                : selectedTdp !== 'all' ? 'bg-white' : 'bg-white'
             } shadow-sm`}
             onPress={() => setShowFilterModal('tdp')}
           >
             <View className="flex-row items-center justify-center">
               <Text className={`text-center mr-1 ${
                 selectedTdp !== 'all'
-                  ? 'text-[#FFE600] font-medium'
+                  ? isDarkMode ? 'text-[#FFE600] font-medium' : 'text-gray-900 font-medium'
                   : isDarkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
                 功耗
@@ -260,7 +260,7 @@ export const CPU = () => {
                 size={14} 
                 color={selectedTdp === 'all' 
                   ? isDarkMode ? '#9CA3AF' : '#9CA3AF'
-                  : '#FFE600'
+                  : isDarkMode ? '#FFE600' : '#111827'
                 } 
               />
             </View>

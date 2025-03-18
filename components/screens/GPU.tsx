@@ -367,8 +367,10 @@ export const GPU = () => {
                         <TouchableOpacity
                           key={item.value}
                           className={`flex-row items-center justify-between p-4 rounded-xl ${
-                            isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
-                          } ${selectedSeries === item.value && 'bg-[#FFE600]/10'}`}
+                            isDarkMode 
+                              ? selectedSeries === item.value ? 'bg-[#FFE600]/10' : ''
+                              : 'bg-white'
+                          }`}
                           onPress={() => {
                             setSelectedSeries(item.value);
                             setShowFilterModal(null);
@@ -398,8 +400,10 @@ export const GPU = () => {
                         <TouchableOpacity
                           key={item.value}
                           className={`flex-row items-center justify-between p-4 rounded-xl ${
-                            isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
-                          } ${tdpFilter === item.value && 'bg-[#FFE600]/10'}`}
+                            isDarkMode 
+                              ? tdpFilter === item.value ? 'bg-[#FFE600]/10' : ''
+                              : 'bg-white'
+                          }`}
                           onPress={() => {
                             setTdpFilter(item.value);
                             setShowFilterModal(null);
@@ -427,8 +431,10 @@ export const GPU = () => {
                         <TouchableOpacity
                           key={item.value}
                           className={`flex-row items-center justify-between p-4 rounded-xl ${
-                            isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'
-                          } ${selectedManufacturer === item.value && 'bg-[#FFE600]/10'}`}
+                            isDarkMode 
+                              ? selectedManufacturer === item.value ? 'bg-[#FFE600]/10' : ''
+                              : 'bg-white'
+                          }`}
                           onPress={() => {
                             setSelectedManufacturer(item.value);
                             setShowFilterModal(null);
