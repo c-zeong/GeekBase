@@ -8,7 +8,7 @@ const tabs = [
   { 
     name: 'Home', 
     label: '首页', 
-    icon: 'home' as const,
+    icon: 'grid' as const,
   },
   { 
     name: 'Compare', 

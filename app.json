@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-expo-app",
-    "slug": "my-expo-app",
+    "name": "极库",
+    "slug": "geekbase",
     "version": "1.0.0",
     "web": {
       "favicon": "./assets/favicon.png"
@@ -22,12 +22,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "newArchEnabled": true,
-      "bundleIdentifier": "com.czeong.geekbase"
+      "bundleIdentifier": "com.geekbase.app",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
     },
     "android": {
-      "package": "com.czeong.geekbase",
+      "package": "com.geekbase.app",
       "versionCode": 1
     }
   }

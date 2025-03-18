@@ -56,7 +56,7 @@ export const CPUSelector = ({ visible, onClose, onSelect, cpuData }: CPUSelector
         onPress={onClose}
       >
         <View 
-          className={`absolute bottom-0 w-full h-[50%] ${isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'} rounded-t-3xl`}
+          className={`absolute bottom-0 w-full h-[70%] ${isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'} rounded-t-3xl`}
         >
           <View className="p-4">
             <TextInput

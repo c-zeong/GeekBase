@@ -82,30 +82,28 @@ const CompareScreen = () => {
   return (
     <View className="flex-1">
       {/* 顶部标题栏 */}
-      <SafeAreaView className={isDarkMode ? 'bg-[#2A2A2A]' : 'bg-white'}>
-        <View className="px-4 py-3">
-          <View className="flex-row justify-between items-center">
-            <Text className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
-              对比
-            </Text>
-            <View className="flex-row space-x-4">
-              <TouchableOpacity 
-                className={`px-4 py-2 rounded-full ${compareType === 'cpu' ? (isDarkMode ? 'bg-[#333]' : 'bg-gray-100') : (isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white')}`}
-                onPress={() => setCompareType('cpu')}
-              >
-                <Text className={compareType === 'cpu' ? (isDarkMode ? 'text-white' : 'text-black') : (isDarkMode ? 'text-gray-400' : 'text-gray-500')}>
-                  CPU
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                className={`px-4 py-2 rounded-full ${compareType === 'gpu' ? (isDarkMode ? 'bg-[#333]' : 'bg-gray-100') : (isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white')}`}
-                onPress={() => setCompareType('gpu')}
-              >
-                <Text className={compareType === 'gpu' ? (isDarkMode ? 'text-white' : 'text-black') : (isDarkMode ? 'text-gray-400' : 'text-gray-500')}>
-                  显卡
-                </Text>
-              </TouchableOpacity>
-            </View>
+      <SafeAreaView className={isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white'}>
+        <View className="flex-row items-center justify-between px-4 py-3">
+          <Text className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            对比
+          </Text>
+          <View className="flex-row space-x-4">
+            <TouchableOpacity 
+              className={`px-4 py-2 rounded-full ${compareType === 'cpu' ? (isDarkMode ? 'bg-[#333]' : 'bg-gray-100') : (isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white')}`}
+              onPress={() => setCompareType('cpu')}
+            >
+              <Text className={compareType === 'cpu' ? (isDarkMode ? 'text-white' : 'text-black') : (isDarkMode ? 'text-gray-400' : 'text-gray-500')}>
+                CPU
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              className={`px-4 py-2 rounded-full ${compareType === 'gpu' ? (isDarkMode ? 'bg-[#333]' : 'bg-gray-100') : (isDarkMode ? 'bg-[#1A1A1A]' : 'bg-white')}`}
+              onPress={() => setCompareType('gpu')}
+            >
+              <Text className={compareType === 'gpu' ? (isDarkMode ? 'text-white' : 'text-black') : (isDarkMode ? 'text-gray-400' : 'text-gray-500')}>
+                显卡
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </SafeAreaView>
